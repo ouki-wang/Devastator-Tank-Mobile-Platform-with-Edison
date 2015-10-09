@@ -1,0 +1,23 @@
+#######################################
+# Syntax Coloring Map For WiringAnalog
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DFRobot	KEYWORD1
+IIC1	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+analogRead	KEYWORD2
+begin	KEYWORD2
+setDirection	KEYWORD2
+move	KEYWORD2
+setSpeed	KEYWORD2
+stop	 KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################
+
