@@ -1,18 +1,14 @@
 /*
- *Copyright (c) 2014, 成都极趣科技有限公司
+ *Copyright (c) 2014, Chengdu Geeker Technology Co., Ltd.
  *All rights reserved
  *
- *文件名称：analogRead.ino
- *文件标识：
- *摘    要：A0-A5端口模拟读例程  
+ *File Name : analogRead.ino
+ *File Tag  :
+ *Summary   : A0-A5 port Analog reading example
  *
- *当前版本：V1.0
- *作    者：邓卫兵(15196617738@163.com)
- *完成时间：2014.12.22
- *
- *取代版本：无
- *原作者  : 无
- *完成时间：无
+ *Version   : V1.0
+ *Author    : weibing.deng(15196617738@163.com)
+ *Time      : 2014.12.22
  */
 #include <DFRobot.h>
 #include <IIC1.h>
@@ -24,10 +20,18 @@ void setup() {
 }
 
 void loop() {
-
   value = analogRead(A0);
- 
-  Serial.println((int)value);
+  Serial.print("A0=");Serial.println((int)value);
+  value = analogRead(A1);
+  Serial.print("A1=");Serial.println((int)value);
+  value = analogRead(A2);
+  Serial.print("A2=");Serial.println((int)value);
+  value = analogRead(A3);
+  Serial.print("A3=");Serial.println((int)value);
+  value = analogRead(A4);
+  Serial.print("A4=");Serial.println((int)value);
+  value = analogRead(A5);
+  Serial.print("A5=");Serial.println((int)value);
   
   delay(2000);
 }
