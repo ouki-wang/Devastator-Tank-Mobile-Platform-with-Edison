@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef TwoWire_h
-#define TwoWire_h
+#ifndef DFTwoWire_h
+#define DFTwoWire_h
 
 #include "Stream.h"
 #include "variant.h"
@@ -29,9 +29,9 @@
 #define I2C1 0x00000000
 #define WIRE_INTERFACES_COUNT 1
 
-class TwoWire : public Stream {
+class DFTwoWire : public Stream {
 public:
-	TwoWire(void(*begin_cb)(void));
+	DFTwoWire(void(*begin_cb)(void));
 	void begin();
 	void begin(uint8_t);
 	void begin(int);
@@ -93,10 +93,10 @@ private:
 };
 
 #if WIRE_INTERFACES_COUNT > 0
-extern TwoWire Wire;
+extern DFTwoWire DFWire;
 #endif
 #if WIRE_INTERFACES_COUNT > 1
-extern TwoWire Wire1;
+extern DFTwoWire DFWire1;
 #endif
 
 #endif

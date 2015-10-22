@@ -1,18 +1,18 @@
 /*
- *Copyright (c) 2014, 成都极趣科技有限公司
+ *Copyright (c) 2014, Chengdu Geeker Technology Co., Ltd.
  *All rights reserved
  *
- *文件名称：DFRobot.h
- *文件标识：
- *摘    要： dfrobot 库文件
+ *FileName :DFRobot.h
+ *File Tag :
+ *Summary  : remeo for edison library
  *
- *当前版本：V1.1
- *作    者：邓卫兵(15196617738@163.com)
- *完成时间：2015.1.7
+ *Version  : V1.1
+ *Author   : weibing.deng(15196617738@163.com)
+ *time     : 2015.1.7
  *
- *取代版本：V1.0
- *原作者  : 邓卫兵(15196617738@163.com)
- *完成时间：2014.12.18
+ *Version  : V1.0
+ *Author   : weibing.deng(15196617738@163.com)
+ *Time     : 2014.12.18
  */
  
 #ifndef DFROBOT_H
@@ -22,14 +22,13 @@
 #include "Arduino.h"
 #include "pins_arduino.h"
 #include "trace.h"
-#include "Servo1.h"
 
 #define MUX_ANALOG_INPUTS 19
 #define MIN_ANALOG_INPUTS  14
-#define M1 10 //点击控制M1
-#define M2 9  //点击控制M2 
-#define CLOCKWISE    1 //电机顺时针旋转
-#define ANTICLOCKWISE  0  //电机逆时针旋转
+#define M1 10 //Moter M1
+#define M2 9  //Moter M2 
+#define CLOCKWISE    1 
+#define ANTICLOCKWISE  0  
 #define MY_TRACE_PREFIX "wiring_analog"
 #define analogRead  (dFrobotEdison.readAnalog)
 #define controlMotor (dFrobotEdison.motorControl)
@@ -48,7 +47,7 @@ class DFrobotEdison {
 		void writeToSlv(const uint32_t cmd, const uint32_t value );
 		void writebyte(const uint32_t value );
 		void readFromSlv(uint32_t *outBuf);
-
+	public:
 		uint32_t numMotor;
 };
 

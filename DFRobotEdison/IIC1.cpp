@@ -29,7 +29,7 @@ extern "C" {
 #include <trace.h>
 #define MY_TRACE_PREFIX "Wire"
 
-TwoWire::TwoWire(void(*_beginCb)(void)) : rxBufferIndex(0), rxBufferLength(0), 
+DFTwoWire::DFTwoWire(void(*_beginCb)(void)) : rxBufferIndex(0), rxBufferLength(0), 
 					  txAddress(0), txBufferLength(0), 
 					  srvBufferIndex(0), srvBufferLength(0), 
 					  onBeginCallback(_beginCb), 
@@ -39,7 +39,7 @@ TwoWire::TwoWire(void(*_beginCb)(void)) : rxBufferIndex(0), rxBufferLength(0),
 	// Empty
 }
 
-void TwoWire::begin(void)
+void DFTwoWire::begin(void)
 {
 	muxSelectI2c(0);
 	if (onBeginCallback)
@@ -56,18 +56,18 @@ void TwoWire::begin(void)
 	}
 }
 
-void TwoWire::begin(uint8_t address)
+void DFTwoWire::begin(uint8_t address)
 {
 	if (onBeginCallback)
 		onBeginCallback();
 }
 
-void TwoWire::begin(int address)
+void DFTwoWire::begin(int address)
 {
 	begin((uint8_t) address);
 }
 
-uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
+uint8_t DFTwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
 {
 	if (quantity > BUFFER_LENGTH)
 		quantity = BUFFER_LENGTH;
@@ -101,22 +101,22 @@ uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop
 	return quantity;
 }
 
-uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity)
+uint8_t DFTwoWire::requestFrom(uint8_t address, uint8_t quantity)
 {
 	return requestFrom((uint8_t) address, (uint8_t) quantity, (uint8_t) true);
 }
 
-uint8_t TwoWire::requestFrom(int address, int quantity)
+uint8_t DFTwoWire::requestFrom(int address, int quantity)
 {
 	return requestFrom((uint8_t) address, (uint8_t) quantity, (uint8_t) true);
 }
 
-uint8_t TwoWire::requestFrom(int address, int quantity, int sendStop)
+uint8_t DFTwoWire::requestFrom(int address, int quantity, int sendStop)
 {
 	return requestFrom((uint8_t) address, (uint8_t) quantity, (uint8_t) sendStop);
 }
 
-void TwoWire::beginTransmission(uint8_t address)
+void DFTwoWire::beginTransmission(uint8_t address)
 {
 	if (i2c_fd < 0 || adapter_nr < 0)
 		return;
@@ -129,7 +129,7 @@ void TwoWire::beginTransmission(uint8_t address)
 	txBufferLength = 0;
 }
 
-void TwoWire::beginTransmission(int address)
+void DFTwoWire::beginTransmission(int address)
 {
 	beginTransmission((uint8_t) address);
 }
@@ -147,7 +147,7 @@ void TwoWire::beginTransmission(int address)
 //	no call to endTransmission(true) is made. Some I2C
 //	devices will behave oddly if they do not see a STOP.
 //
-uint8_t TwoWire::endTransmission(uint8_t sendStop)
+uint8_t DFTwoWire::endTransmission(uint8_t sendStop)
 {
 	int err;
 	if (sendStop == true) {	
@@ -182,12 +182,12 @@ uint8_t TwoWire::endTransmission(uint8_t sendStop)
 //	This provides backwards compatibility with the original
 //	definition, and expected behaviour, of endTransmission
 //
-uint8_t TwoWire::endTransmission(void)
+uint8_t DFTwoWire::endTransmission(void)
 {
 	return endTransmission(true);
 }
 
-size_t TwoWire::write(uint8_t data)
+size_t DFTwoWire::write(uint8_t data)
 {
 	if (txBufferLength >= BUFFER_LENGTH)
 		return 0;
@@ -195,7 +195,7 @@ size_t TwoWire::write(uint8_t data)
 	return 1;
 }
 
-size_t TwoWire::write(const uint8_t *data, size_t quantity)
+size_t DFTwoWire::write(const uint8_t *data, size_t quantity)
 {
 	for (size_t i = 0; i < quantity; ++i) {
 		if (txBufferLength >= BUFFER_LENGTH)
@@ -205,41 +205,41 @@ size_t TwoWire::write(const uint8_t *data, size_t quantity)
 	return quantity;
 }
 
-int TwoWire::available(void)
+int DFTwoWire::available(void)
 {
 	return rxBufferLength - rxBufferIndex;
 }
 
-int TwoWire::read(void)
+int DFTwoWire::read(void)
 {
 	if (rxBufferIndex < rxBufferLength)
 		return rxBuffer[rxBufferIndex++];
 	return -1;
 }
 
-int TwoWire::peek(void)
+int DFTwoWire::peek(void)
 {
 	if (rxBufferIndex < rxBufferLength)
 		return rxBuffer[rxBufferIndex];
 	return -1;
 }
 
-void TwoWire::flush(void)
+void DFTwoWire::flush(void)
 {
 	// Do nothing, use endTransmission(..) to force
 	// data transfer.
 }
 
-void TwoWire::onReceive(void(*function)(int))
+void DFTwoWire::onReceive(void(*function)(int))
 {
 	onReceiveCallback = function;
 }
 
-void TwoWire::onRequest(void(*function)(void)) {
+void DFTwoWire::onRequest(void(*function)(void)) {
 	onRequestCallback = function;
 }
 
-void TwoWire::onService(void)
+void DFTwoWire::onService(void)
 {
 }
 
@@ -248,11 +248,11 @@ static void Wire_Init(void)
 {
 }
 
-TwoWire Wire = TwoWire(Wire_Init);
-
+DFTwoWire DFWire = DFTwoWire(Wire_Init);
+/*
 void WIRE_ISR_HANDLER(void) {
-	Wire.onService();
-}
+	DFWire.onService();
+}*/
 #endif
 
 #if WIRE_INTERFACES_COUNT > 1
@@ -266,9 +266,9 @@ static void Wire1_Init(void)
 	}
 }
 
-TwoWire Wire1 = TwoWire(Wire1_Init);
-
+DFTwoWire DFWire1 = DFTwoWire(Wire1_Init);
+/*
 void WIRE1_ISR_HANDLER(void) {
-	Wire1.onService();
-}
+	DFWire1.onService();
+}*/
 #endif
